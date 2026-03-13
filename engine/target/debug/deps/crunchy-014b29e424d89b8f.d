@@ -1,0 +1,11 @@
+/home/daiwi/polka/engine/target/debug/deps/crunchy-014b29e424d89b8f.d: /home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/crunchy-0.2.4/src/lib.rs /home/daiwi/polka/engine/target/debug/build/crunchy-ec4ed84c647663bc/out/lib.rs
+
+/home/daiwi/polka/engine/target/debug/deps/libcrunchy-014b29e424d89b8f.rlib: /home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/crunchy-0.2.4/src/lib.rs /home/daiwi/polka/engine/target/debug/build/crunchy-ec4ed84c647663bc/out/lib.rs
+
+/home/daiwi/polka/engine/target/debug/deps/libcrunchy-014b29e424d89b8f.rmeta: /home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/crunchy-0.2.4/src/lib.rs /home/daiwi/polka/engine/target/debug/build/crunchy-ec4ed84c647663bc/out/lib.rs
+
+/home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/crunchy-0.2.4/src/lib.rs:
+/home/daiwi/polka/engine/target/debug/build/crunchy-ec4ed84c647663bc/out/lib.rs:
+
+# env-dep:CRUNCHY_LIB_SUFFIX=/lib.rs
+# env-dep:OUT_DIR=/home/daiwi/polka/engine/target/debug/build/crunchy-ec4ed84c647663bc/out

@@ -1,0 +1,14 @@
+/home/daiwi/polka/engine/target/debug/deps/pallet_revive_uapi-881aedb62a585cb1.d: /home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pallet-revive-uapi-0.10.1/src/lib.rs /home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pallet-revive-uapi-0.10.1/src/flags.rs /home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pallet-revive-uapi-0.10.1/src/host.rs /home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pallet-revive-uapi-0.10.1/src/macros.rs /home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pallet-revive-uapi-0.10.1/src/precompiles/mod.rs /home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pallet-revive-uapi-0.10.1/src/precompiles/storage.rs /home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pallet-revive-uapi-0.10.1/src/precompiles/system.rs /home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pallet-revive-uapi-0.10.1/src/precompiles/utils.rs
+
+/home/daiwi/polka/engine/target/debug/deps/libpallet_revive_uapi-881aedb62a585cb1.rmeta: /home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pallet-revive-uapi-0.10.1/src/lib.rs /home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pallet-revive-uapi-0.10.1/src/flags.rs /home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pallet-revive-uapi-0.10.1/src/host.rs /home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pallet-revive-uapi-0.10.1/src/macros.rs /home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pallet-revive-uapi-0.10.1/src/precompiles/mod.rs /home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pallet-revive-uapi-0.10.1/src/precompiles/storage.rs /home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pallet-revive-uapi-0.10.1/src/precompiles/system.rs /home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pallet-revive-uapi-0.10.1/src/precompiles/utils.rs
+
+/home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pallet-revive-uapi-0.10.1/src/lib.rs:
+/home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pallet-revive-uapi-0.10.1/src/flags.rs:
+/home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pallet-revive-uapi-0.10.1/src/host.rs:
+/home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pallet-revive-uapi-0.10.1/src/macros.rs:
+/home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pallet-revive-uapi-0.10.1/src/precompiles/mod.rs:
+/home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pallet-revive-uapi-0.10.1/src/precompiles/storage.rs:
+/home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pallet-revive-uapi-0.10.1/src/precompiles/system.rs:
+/home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pallet-revive-uapi-0.10.1/src/precompiles/utils.rs:
+
+# env-dep:CARGO_MANIFEST_DIR=/home/daiwi/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pallet-revive-uapi-0.10.1

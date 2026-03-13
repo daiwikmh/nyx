@@ -1,0 +1,5 @@
+[env]
+RUST_TARGET_PATH = { value = "/home/daiwi/polka/engine", force = true }
+
+[target.riscv64emac-unknown-none-polkavm]
+rustflags = ["-Z", "unstable-options"]
