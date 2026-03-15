@@ -89,7 +89,7 @@ export default function FillHistory() {
                 <tr key={i} className="db-table-row">
                   <td style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11 }}>#{f.orderId}</td>
                   <td style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: 'var(--db-neon-cyan)' }}>
-                    {(Number(f.filledAmount) / 1e6).toFixed(6)}
+                    {(Number(f.filledAmount) / 1e8).toFixed(4)}
                   </td>
                   <td style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 10, color: 'var(--db-accent-dim)' }}>
                     {f.txHash.slice(0, 10)}...{f.txHash.slice(-6)}

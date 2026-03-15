@@ -51,8 +51,8 @@ export default function StatsCards() {
       glow: 'rgba(0,255,224,0.08)',
     },
     {
-      label: 'DOT Locked',
-      value: totalDOTLocked !== undefined ? `${(Number(totalDOTLocked) / 1e6).toFixed(4)}` : '—',
+      label: 'PAS Locked',
+      value: totalDOTLocked !== undefined ? `${(Number(totalDOTLocked) / 1e8).toFixed(4)}` : '—',
       color: 'var(--db-accent)',
       glow: null,
     },

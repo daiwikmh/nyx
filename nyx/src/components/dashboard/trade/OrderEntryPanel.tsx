@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useAccount, useWriteContract, useReadContract, useWaitForTransactionReceipt } from 'wagmi'
 import { parseUnits } from 'viem'
 import {
@@ -18,6 +18,9 @@ export default function OrderEntryPanel() {
   const [priceInput, setPriceInput]       = useState('')
   const [quantityInput, setQuantityInput] = useState('')
 
+  const [isApproving, setIsApproving] = useState(false)
+  const [approvalConfirmed, setApprovalConfirmed] = useState(false)
+
   const { writeContract, data: txHash, isPending, error, reset } = useWriteContract()
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash: txHash })
 
@@ -25,18 +28,24 @@ export default function OrderEntryPanel() {
     try { return parseUnits(priceInput || '0', 6) } catch { return 0n }
   }, [priceInput])
 
+  // PAS has 8 decimals — 100_000_000 = 1 PAS
   const quantityBn = useMemo(() => {
-    try { return parseUnits(quantityInput || '0', 6) } catch { return 0n }
+    try { return parseUnits(quantityInput || '0', 8) } catch { return 0n }
   }, [quantityInput])
 
+  // cost in USDC (6-dec): price(6-dec) * quantity(8-dec) / 1e8 → gives 6-dec USDC units
+  // e.g. price=8_000_000 ($8), qty=100_000_000 (1 PAS) → 8_000_000 = $8.00 USDC
   const costBn = useMemo(
-    () => (priceBn > 0n && quantityBn > 0n ? (priceBn * quantityBn) / 1_000_000n : 0n),
+    () => (priceBn > 0n && quantityBn > 0n ? (priceBn * quantityBn) / 100_000_000n : 0n),
     [priceBn, quantityBn]
   )
 
+  // Reset approval flag if the user changes price/quantity (new cost may exceed old approval)
+  useEffect(() => { setApprovalConfirmed(false) }, [priceInput, quantityInput])
+
   const isOutsideBand = priceBn > 0n && (priceBn < MIN_VALID_PRICE || priceBn > MAX_VALID_PRICE)
 
-  const { data: allowance } = useReadContract({
+  const { data: allowance, refetch: refetchAllowance } = useReadContract({
     address: USDC_ADDRESS,
     abi: ERC20_ABI,
     functionName: 'allowance',
@@ -44,9 +53,21 @@ export default function OrderEntryPanel() {
     query: { enabled: !!address && side === 0 },
   })
 
-  const needsApproval = side === 0 && costBn > 0n && (allowance === undefined || (allowance as bigint) < costBn)
+  // allowance === undefined means still loading — don't block the button while fetching
+  const needsApproval = side === 0 && costBn > 0n && !approvalConfirmed &&
+    allowance !== undefined && (allowance as bigint) < costBn
+
+  useEffect(() => {
+    if (isSuccess && isApproving) {
+      setApprovalConfirmed(true)
+      setIsApproving(false)
+      refetchAllowance()
+    }
+  }, [isSuccess, isApproving, refetchAllowance])
 
   const handleApprove = () => {
+    setIsApproving(true)
+    reset()
     writeContract({ address: USDC_ADDRESS, abi: ERC20_ABI, functionName: 'approve', args: [WARDEN_CLOB_ADDRESS, costBn] })
   }
 
@@ -60,6 +81,7 @@ export default function OrderEntryPanel() {
         functionName: 'placeLimitOrder',
         args: [side, priceBn, quantityBn],
         value: quantityBn,
+        gas: 500_000n,
       })
     } else {
       writeContract({
@@ -67,6 +89,7 @@ export default function OrderEntryPanel() {
         abi: CLOB_ABI,
         functionName: 'placeLimitOrder',
         args: [side, priceBn, quantityBn],
+        gas: 500_000n,
       })
     }
   }
@@ -154,14 +177,13 @@ export default function OrderEntryPanel() {
           <span style={{ fontSize: 10, color: 'var(--db-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
             Quantity (DOT)
           </span>
-          <span style={{ fontSize: 9, color: 'var(--db-text-muted)' }}>6-dec</span>
         </div>
         <input
           type="number"
           value={quantityInput}
           onChange={(e) => setQuantityInput(e.target.value)}
-          placeholder="1.000000"
-          step="0.000001"
+          placeholder="1"
+          step="0.0000000001"
           min="0"
           className="db-input"
         />
@@ -180,7 +202,7 @@ export default function OrderEntryPanel() {
         }}>
           <span style={{ fontSize: 11, color: 'var(--db-text-muted)' }}>Cost</span>
           <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: 'var(--db-text-primary)' }}>
-            ${(Number(costBn) / 1e6).toFixed(6)} USDC
+            ${(Number(costBn) / 1e6).toFixed(2)} USDC
           </span>
         </div>
       )}

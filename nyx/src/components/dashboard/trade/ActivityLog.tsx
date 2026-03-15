@@ -67,7 +67,7 @@ export default function ActivityLog() {
           add({
             id: `${e.transactionHash}-placed`,
             kind: 'placed',
-            message: `Order #${a.orderId} — ${a.side === 0 ? 'BUY' : 'SELL'} ${(Number(a.quantity) / 1e6).toFixed(4)} DOT @ $${(Number(a.price) / 1e6).toFixed(4)}`,
+            message: `Order #${a.orderId} — ${a.side === 0 ? 'BUY' : 'SELL'} ${(Number(a.quantity) / 1e8).toFixed(4)} PAS @ $${(Number(a.price) / 1e6).toFixed(4)}`,
             ts: Date.now(),
           })
         }),
@@ -83,7 +83,7 @@ export default function ActivityLog() {
           add({
             id: `${e.transactionHash}-filled`,
             kind: 'filled',
-            message: `Order #${a.orderId} filled ${(Number(a.filledAmount) / 1e6).toFixed(4)}, remaining ${(Number(a.remainingAmount) / 1e6).toFixed(4)}`,
+            message: `Order #${a.orderId} filled ${(Number(a.filledAmount) / 1e8).toFixed(4)}, remaining ${(Number(a.remainingAmount) / 1e8).toFixed(4)}`,
             ts: Date.now(),
           })
         }),
@@ -99,7 +99,7 @@ export default function ActivityLog() {
           add({
             id: `${e.transactionHash}-staked`,
             kind: 'staked',
-            message: `${(Number(a.amount) / 1e6).toFixed(4)} DOT staked → pool #${a.poolId}`,
+            message: `${(Number(a.amount) / 1e8).toFixed(4)} PAS staked → pool #${a.poolId}`,
             ts: Date.now(),
           })
         }),

@@ -103,11 +103,11 @@ export default function OpenOrdersTable() {
                       </span>
                     </td>
                     <td style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11 }}>${(Number(o.price) / 1e6).toFixed(4)}</td>
-                    <td style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11 }}>{(Number(o.quantity) / 1e6).toFixed(4)}</td>
+                    <td style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11 }}>{(Number(o.quantity) / 1e8).toFixed(4)}</td>
                     <td style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: 'var(--db-success)' }}>
-                      {(Number(o.filled) / 1e6).toFixed(4)}
+                      {(Number(o.filled) / 1e8).toFixed(4)}
                     </td>
-                    <td style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11 }}>{(Number(remaining) / 1e6).toFixed(4)}</td>
+                    <td style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11 }}>{(Number(remaining) / 1e8).toFixed(4)}</td>
                     <td>
                       <button
                         onClick={() => handleCancel(o.orderId)}

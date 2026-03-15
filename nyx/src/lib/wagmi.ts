@@ -3,11 +3,11 @@ import { defineChain } from 'viem'
 import { metaMask } from 'wagmi/connectors'
 
 // Paseo Asset Hub — EVM-compatible Polkadot testnet
-// Chain ID: 420420421, native token: DOT (10 decimals)
+// Chain ID: 420420421, native token: PAS (8 decimals — 100_000_000 = 1 PAS)
 export const paseoAssetHub = defineChain({
   id: 420420421,
   name: 'Paseo Asset Hub',
-  nativeCurrency: { name: 'DOT', symbol: 'DOT', decimals: 10 },
+  nativeCurrency: { name: 'PAS', symbol: 'PAS', decimals: 8 },
   rpcUrls: {
     default: { http: ['https://eth-rpc-testnet.polkadot.io/'] },
   },
