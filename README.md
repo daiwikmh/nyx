@@ -44,9 +44,25 @@ This is not a demo with mock data. Everything is deployed and running on Paseo A
 
 ## The PVM Stack
 
-### 1. Rust Engine (`engine/src/lib.rs`)
+```
+                        PolkaVM Runtime (RISC-V 64-bit)
+                        ================================
 
-A `no_std` Rust program compiled to RISC-V 64-bit (`riscv64emac-unknown-none-polkavm`) and linked into a `.polkavm` blob by `polkatool`. It runs natively on PolkaVM — not inside an EVM interpreter.
+  User tx                    Solidity (resolc)                Rust (polkavm)
+  ------                     -----------------                --------------
+
+  placeLimitOrder()  --->  WardenCLOB.sol                   engine/src/lib.rs
+                           |                                      ^
+                           | 1. Escrow funds                      |
+                           | 2. IEngine.matchOrder() ------------+
+                           |                                      |
+                           | 3. Receive (filled, remaining) <-----+
+                           | 4. Settle + stake idle DOT
+```
+
+### 1. Rust Engine ([`engine/src/lib.rs`](engine/src/lib.rs))
+
+A `no_std` Rust program compiled to RISC-V 64-bit (`riscv64emac-unknown-none-polkavm`) and linked into a `.polkavm` blob by [`polkatool`](engine/Cargo.toml). It runs natively on PolkaVM — not inside an EVM interpreter.
 
 **Entry points** exported via `#[polkavm_derive::polkavm_export]`:
 - `deploy()` — no-op constructor
@@ -60,11 +76,12 @@ A `no_std` Rust program compiled to RISC-V 64-bit (`riscv64emac-unknown-none-pol
 
 **Testing:** 14 unit tests run on host (`cargo test`) — all PVM-specific code is `#[cfg(not(test))]` gated so the pure matching logic is testable without a PVM runtime.
 
-### 2. Solidity to Rust Cross-Contract Call (`contract/contracts/WardenCLOB.sol`)
+### 2. Solidity to Rust Cross-Contract Call ([`contract/contracts/WardenCLOB.sol`](contract/contracts/WardenCLOB.sol))
 
-Compiled to PVM bytecode via `resolc 0.3.0` (not `solc`). At order placement time, the Solidity contract makes a standard external call to the Rust engine's address:
+Compiled to PVM bytecode via `resolc 0.3.0` (not `solc`). At order placement time, the Solidity contract makes a standard external call to the Rust engine via the [`IEngine`](contract/contracts/IEngine.sol) interface:
 
 ```solidity
+// contract/contracts/IEngine.sol
 (uint256 filled, uint256 remaining) = IEngine(engineAddress).matchOrder(
     side, price, quantity, bestOppositePrice, availableLiquidity
 );
@@ -74,13 +91,19 @@ The PVM runtime routes this call to the Rust engine. It reads calldata via `Host
 
 ### 3. Native Asset and Precompiles
 
-**USDC** — Deployed as a standard ERC20 contract. WardenCLOB calls `transferFrom` to escrow buy collateral and `transfer` to pay out sellers.
+**USDC** ([`contract/contracts/MockUSDC.sol`](contract/contracts/MockUSDC.sol)) — Deployed as a standard ERC20 contract. WardenCLOB calls `transferFrom` to escrow buy collateral and `transfer` to pay out sellers.
 
 **Staking (`0x0000...0804`)** — Nomination Pool precompile. After every order, idle DOT (balance minus locked sell collateral) is staked via `join(amount, poolId)` to earn passive yield.
+
+### 4. Nyx Frontend ([`nyx/`](nyx/))
+
+Real-time trading dashboard built with Next.js 16. Reads on-chain state via [`wagmi`](nyx/src/lib/wagmi.ts) and contract config from [`clob.ts`](nyx/src/lib/clob.ts). Telegram notifications via [`@nyx_polkabot`](nyx/src/lib/telegram.ts).
 
 ---
 
 ## Architecture
+
+![Nyx Architecture](nyx/public/nyx.png)
 
 ```
 User / Nyx Frontend (Next.js 16)
