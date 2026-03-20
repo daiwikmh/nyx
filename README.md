@@ -103,8 +103,6 @@ Real-time trading dashboard built with Next.js 16. Reads on-chain state via [`wa
 
 ## Architecture
 
-![Nyx Architecture](nyx/public/nyx.png)
-
 ```
 User / Nyx Frontend (Next.js 16)
         |
