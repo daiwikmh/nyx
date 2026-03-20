@@ -18,6 +18,8 @@ This is not a demo with mock data. Everything is deployed and running on Polkado
 
 ---
 
+![Nyx Dashboard](nyx/public/nyx.png)
+
 ## Features
 
 ### On-Chain CLOB
