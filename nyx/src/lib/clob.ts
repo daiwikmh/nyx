@@ -23,36 +23,6 @@ export const TRADING_PAIRS: TradingPair[] = [
     quoteDecimals: 6,
     priceDecimals: 6,
   },
-  {
-    base: 'MYTH',
-    quote: 'USDC',
-    baseAddress: '0x0000000000000000000000000000000000000BBE',
-    quoteAddress: USDC_ADDRESS,
-    active: false,
-    baseDecimals: 18,
-    quoteDecimals: 6,
-    priceDecimals: 6,
-  },
-  {
-    base: 'WETH',
-    quote: 'USDC',
-    baseAddress: '0x0000000000000000000000000000000000000BD0',
-    quoteAddress: USDC_ADDRESS,
-    active: false,
-    baseDecimals: 18,
-    quoteDecimals: 6,
-    priceDecimals: 6,
-  },
-  {
-    base: 'DED',
-    quote: 'USDC',
-    baseAddress: '0x0000000000000000000000000000000000000BBF',
-    quoteAddress: USDC_ADDRESS,
-    active: false,
-    baseDecimals: 10,
-    quoteDecimals: 6,
-    priceDecimals: 6,
-  },
 ]
 
 // Volatility guard: DOT baseline $8.00, ±10% band
