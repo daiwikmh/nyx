@@ -9,7 +9,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Shadow Warden CLOB | Decentralized Order Book on Polkadot",
+  title: "Nyx CLOB | Decentralized Order Book on Polkadot",
   description:
     "A decentralized Central Limit Order Book built on PolkaVM. Rust matching engine + Solidity settlement on Polkadot Hub.",
 };

@@ -16,6 +16,7 @@ export const paseoAssetHub = defineChain({
 
 export const wagmiConfig = createConfig({
   ssr: true,
+  multiInjectedProviderDiscovery: false,
   chains: [paseoAssetHub],
   connectors: [metaMask()],
   transports: {

@@ -23,7 +23,7 @@ export function Navbar() {
           >
             <span className="text-sm font-mono">&#x2694;</span>
             <span className="text-xs font-mono tracking-[0.15em] uppercase font-bold">
-              SHADOW WARDEN
+              NYX
             </span>
           </motion.div>
 

@@ -10,10 +10,15 @@ import {
   ERC20_ABI,
   MIN_VALID_PRICE,
   MAX_VALID_PRICE,
+  type TradingPair,
 } from '@/lib/clob'
+import { useTelegram } from '@/hooks/useTelegram'
 
-export default function OrderEntryPanel() {
+export default function OrderEntryPanel({ pair }: { pair?: TradingPair }) {
+  const baseName = pair?.base ?? 'DOT'
+  const quoteName = pair?.quote ?? 'USDC'
   const { address, isConnected } = useAccount()
+  const { notify } = useTelegram(address)
   const [side, setSide]                   = useState<0 | 1>(0)
   const [priceInput, setPriceInput]       = useState('')
   const [quantityInput, setQuantityInput] = useState('')
@@ -63,7 +68,15 @@ export default function OrderEntryPanel() {
       setIsApproving(false)
       refetchAllowance()
     }
-  }, [isSuccess, isApproving, refetchAllowance])
+    if (isSuccess && !isApproving) {
+      notify('OrderPlaced', {
+        orderId: txHash ?? '',
+        side,
+        price: String(priceBn),
+        quantity: String(quantityBn),
+      })
+    }
+  }, [isSuccess, isApproving, refetchAllowance, notify, txHash, side, priceBn, quantityBn])
 
   const handleApprove = () => {
     setIsApproving(true)
@@ -140,7 +153,7 @@ export default function OrderEntryPanel() {
       <label style={{ display: 'block', marginBottom: 12 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
           <span style={{ fontSize: 10, color: 'var(--db-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-            Price (USD)
+            Price ({quoteName})
           </span>
           <span style={{ fontSize: 9, color: 'var(--db-text-muted)' }}>6-dec</span>
         </div>
@@ -175,7 +188,7 @@ export default function OrderEntryPanel() {
       <label style={{ display: 'block', marginBottom: 12 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
           <span style={{ fontSize: 10, color: 'var(--db-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-            Quantity (DOT)
+            Quantity ({baseName})
           </span>
         </div>
         <input
@@ -202,7 +215,7 @@ export default function OrderEntryPanel() {
         }}>
           <span style={{ fontSize: 11, color: 'var(--db-text-muted)' }}>Cost</span>
           <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, color: 'var(--db-text-primary)' }}>
-            ${(Number(costBn) / 1e6).toFixed(2)} USDC
+            ${(Number(costBn) / 1e6).toFixed(2)} {quoteName}
           </span>
         </div>
       )}

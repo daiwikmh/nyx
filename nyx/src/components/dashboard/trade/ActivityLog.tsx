@@ -1,9 +1,10 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { usePublicClient } from 'wagmi'
+import { usePublicClient, useAccount } from 'wagmi'
 import { Terminal } from 'lucide-react'
 import { WARDEN_CLOB_ADDRESS } from '@/lib/clob'
+import { useTelegram } from '@/hooks/useTelegram'
 
 type LogEntry = {
   id: string
@@ -49,6 +50,8 @@ const STAKED_ABI = [{
 
 export default function ActivityLog() {
   const publicClient = usePublicClient()
+  const { address } = useAccount()
+  const { notify } = useTelegram(address)
   const [logs, setLogs] = useState<LogEntry[]>([])
 
   const add = (entry: LogEntry) =>
@@ -63,13 +66,21 @@ export default function ActivityLog() {
       eventName: 'OrderPlaced',
       onLogs: (evts) =>
         evts.forEach((e) => {
-          const a = e.args as { orderId: bigint; side: number; price: bigint; quantity: bigint }
+          const a = e.args as { orderId: bigint; user: string; side: number; price: bigint; quantity: bigint }
           add({
             id: `${e.transactionHash}-placed`,
             kind: 'placed',
             message: `Order #${a.orderId} — ${a.side === 0 ? 'BUY' : 'SELL'} ${(Number(a.quantity) / 1e8).toFixed(4)} PAS @ $${(Number(a.price) / 1e6).toFixed(4)}`,
             ts: Date.now(),
           })
+          if (address && a.user.toLowerCase() === address.toLowerCase()) {
+            notify('OrderPlaced', {
+              orderId: String(a.orderId),
+              side: a.side,
+              price: String(a.price),
+              quantity: String(a.quantity),
+            })
+          }
         }),
     })
 
@@ -85,6 +96,11 @@ export default function ActivityLog() {
             kind: 'filled',
             message: `Order #${a.orderId} filled ${(Number(a.filledAmount) / 1e8).toFixed(4)}, remaining ${(Number(a.remainingAmount) / 1e8).toFixed(4)}`,
             ts: Date.now(),
+          })
+          notify('OrderFilled', {
+            orderId: String(a.orderId),
+            filledAmount: String(a.filledAmount),
+            remainingAmount: String(a.remainingAmount),
           })
         }),
     })
@@ -102,6 +118,10 @@ export default function ActivityLog() {
             message: `${(Number(a.amount) / 1e8).toFixed(4)} PAS staked → pool #${a.poolId}`,
             ts: Date.now(),
           })
+          notify('IdleDOTStaked', {
+            amount: String(a.amount),
+            poolId: String(a.poolId),
+          })
         }),
     })
 
@@ -110,7 +130,7 @@ export default function ActivityLog() {
       unwatchFilled()
       unwatchStaked()
     }
-  }, [publicClient])
+  }, [publicClient, address, notify])
 
   return (
     <div className="db-card" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>

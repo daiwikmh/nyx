@@ -5,16 +5,22 @@ import { PanelLeftClose, PanelLeftOpen, PanelRightClose, PanelRightOpen } from '
 import Sidebar from './Sidebar'
 import MarketPanel from './MarketPanel'
 import StatsCards from './trade/StatsCards'
+import PairSelector from './trade/PairSelector'
 import OrderEntryPanel from './trade/OrderEntryPanel'
+import DepthChart from './trade/DepthChart'
 import OpenOrdersTable from './trade/OpenOrdersTable'
 import ActivityLog from './trade/ActivityLog'
 import BalanceCards from './portfolio/BalanceCards'
+import YieldDashboard from './portfolio/YieldDashboard'
+import PriceChart from './portfolio/PriceChart'
 import FillHistory from './portfolio/FillHistory'
+import { TRADING_PAIRS, type TradingPair } from '@/lib/clob'
 
 export default function Dashboard() {
   const [mode, setMode] = useState<'trade' | 'portfolio'>('trade')
   const [leftOpen, setLeftOpen] = useState(true)
   const [rightOpen, setRightOpen] = useState(true)
+  const [selectedPair, setSelectedPair] = useState<TradingPair>(TRADING_PAIRS[0])
 
   return (
     <div
@@ -34,7 +40,7 @@ export default function Dashboard() {
             </button>
             <div>
               <h2 className="db-topbar-title">{mode === 'trade' ? 'Trade' : 'Portfolio'}</h2>
-              <p className="db-topbar-sub">brahma — Shadow Warden CLOB</p>
+              <p className="db-topbar-sub">nyx CLOB</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -52,17 +58,22 @@ export default function Dashboard() {
           {mode === 'trade' ? (
             <>
               <StatsCards />
+              <PairSelector selectedPair={selectedPair} onSelect={setSelectedPair} />
               <div className="grid grid-cols-3 gap-4">
-                <OrderEntryPanel />
+                <OrderEntryPanel pair={selectedPair} />
                 <div className="col-span-2">
-                  <ActivityLog />
+                  <DepthChart />
                 </div>
               </div>
+              <PriceChart compact />
+              <ActivityLog />
               <OpenOrdersTable />
             </>
           ) : (
             <>
               <BalanceCards />
+              <YieldDashboard />
+              <PriceChart />
               <FillHistory />
             </>
           )}

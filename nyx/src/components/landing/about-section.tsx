@@ -138,7 +138,7 @@ export function AboutSection() {
           <pre className="text-background/70 text-[9px] sm:text-[11px] leading-tight font-mono select-none px-4">
 {`
     ╔══════════════════════════════╗
-    ║   SHADOW WARDEN CLOB v1.0   ║
+    ║       NYX CLOB v1.0         ║
     ╠══════════════════════════════╣
     ║  BID          │  ASK        ║
     ║  ████░░ 8.05  │  8.07 ░████ ║

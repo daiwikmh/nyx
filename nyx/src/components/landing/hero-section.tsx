@@ -49,7 +49,7 @@ export function HeroSection() {
           transition={{ duration: 0.5, delay: 0.45, ease }}
           className="text-xs lg:text-sm text-muted-foreground max-w-md mb-6 leading-relaxed font-mono"
         >
-          Shadow Warden CLOB is the on-chain order book powered by a Rust PVM matching engine on Polkadot Hub. 10% volatility guard. Instant settlement. Idle DOT staking yield.
+          Nyx CLOB is the on-chain order book powered by a Rust PVM matching engine on Polkadot Hub. 10% volatility guard. Instant settlement. Idle DOT staking yield.
         </motion.p>
 
         {/* CTA Button */}

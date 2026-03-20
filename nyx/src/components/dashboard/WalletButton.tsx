@@ -45,7 +45,7 @@ export default function WalletButton() {
 
   if (isWrongChain) {
     return (
-      <div style={{ padding: '12px 16px' }}>
+      <div style={{ padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: 6 }}>
         <button
           onClick={() => switchChain({ chainId: paseoAssetHub.id })}
           style={{
@@ -63,56 +63,94 @@ export default function WalletButton() {
         >
           Switch to Paseo
         </button>
+        <button
+          onClick={() => disconnect()}
+          style={{
+            fontFamily: 'var(--font-mono), monospace',
+            width: '100%',
+            padding: '6px 10px',
+            borderRadius: 8,
+            fontSize: 11,
+            background: 'transparent',
+            border: '1px solid var(--db-border)',
+            color: 'var(--db-text-muted)',
+            cursor: 'pointer',
+          }}
+        >
+          Disconnect
+        </button>
       </div>
     )
   }
 
   return (
     <div style={{ padding: '12px 16px' }}>
+      {/* Connected wallet card */}
       <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '8px 12px',
+        padding: '10px 12px',
         borderRadius: 8,
         background: 'var(--db-bg-surface)',
         border: '1px solid var(--db-border)',
-        marginBottom: 8,
-        transition: 'all 0.2s',
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        {/* Status row */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+            <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--db-success)', animation: 'db-pulse 2s infinite' }} />
+            <span style={{ fontSize: 9, color: 'var(--db-success)', fontFamily: 'var(--font-mono), monospace', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              Connected
+            </span>
+          </div>
+          <span style={{ fontSize: 9, color: 'var(--db-text-muted)', fontFamily: 'var(--font-mono), monospace' }}>MetaMask</span>
+        </div>
+
+        {/* Address */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
           <div style={{
-            width: 24, height: 24, borderRadius: '50%',
+            width: 28, height: 28, borderRadius: '50%',
             background: 'var(--db-accent-ghost)',
+            border: '1px solid var(--db-accent-muted)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
+            flexShrink: 0,
           }}>
-            <span style={{ fontSize: 10, color: 'var(--db-accent)' }}>◈</span>
+            <span style={{ fontSize: 11, color: 'var(--db-accent)' }}>◈</span>
           </div>
           <div>
-            <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12, color: 'var(--db-text-secondary)' }}>
+            <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12, fontWeight: 600, color: 'var(--db-text-primary)', letterSpacing: '0.02em' }}>
               {address?.slice(0, 6)}...{address?.slice(-4)}
             </p>
-            <p style={{ fontSize: 9, color: 'var(--db-text-muted)' }}>Paseo Asset Hub</p>
+            <p style={{ fontSize: 9, color: 'var(--db-text-muted)', marginTop: 1 }}>Paseo Asset Hub · chain 420420421</p>
           </div>
         </div>
+
+        {/* Disconnect button */}
+        <button
+          onClick={() => disconnect()}
+          style={{
+            fontFamily: 'var(--font-mono), monospace',
+            width: '100%',
+            padding: '6px 10px',
+            borderRadius: 6,
+            fontSize: 11,
+            fontWeight: 500,
+            background: 'rgba(239,68,68,0.06)',
+            border: '1px solid rgba(239,68,68,0.18)',
+            color: 'var(--db-danger)',
+            cursor: 'pointer',
+            transition: 'all 0.15s',
+            letterSpacing: '0.03em',
+          }}
+          onMouseEnter={e => {
+            (e.currentTarget as HTMLButtonElement).style.background = 'rgba(239,68,68,0.14)'
+            ;(e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(239,68,68,0.35)'
+          }}
+          onMouseLeave={e => {
+            (e.currentTarget as HTMLButtonElement).style.background = 'rgba(239,68,68,0.06)'
+            ;(e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(239,68,68,0.18)'
+          }}
+        >
+          Disconnect
+        </button>
       </div>
-      <button
-        onClick={() => disconnect()}
-        style={{
-          fontFamily: 'var(--font-mono), monospace',
-          width: '100%',
-          padding: '6px 10px',
-          borderRadius: 8,
-          fontSize: 12,
-          background: 'rgba(255,255,255,0.02)',
-          border: '1px solid var(--db-border)',
-          color: 'var(--db-text-muted)',
-          cursor: 'pointer',
-          transition: 'all 0.15s',
-        }}
-      >
-        Disconnect
-      </button>
     </div>
   )
 }

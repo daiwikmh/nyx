@@ -1,6 +1,60 @@
 export const WARDEN_CLOB_ADDRESS = '0x84e57567758B1143BD285eED2cbD574187a1D710' as const
 export const USDC_ADDRESS = '0x0000000000000000000000000000000000000539' as const
 
+export type TradingPair = {
+  base: string
+  quote: string
+  baseAddress: string | null  // null = native asset
+  quoteAddress: string
+  active: boolean
+  baseDecimals: number
+  quoteDecimals: number
+  priceDecimals: number
+}
+
+export const TRADING_PAIRS: TradingPair[] = [
+  {
+    base: 'PAS',
+    quote: 'USDC',
+    baseAddress: null,
+    quoteAddress: USDC_ADDRESS,
+    active: true,
+    baseDecimals: 8,
+    quoteDecimals: 6,
+    priceDecimals: 6,
+  },
+  {
+    base: 'MYTH',
+    quote: 'USDC',
+    baseAddress: '0x0000000000000000000000000000000000000BBE',
+    quoteAddress: USDC_ADDRESS,
+    active: false,
+    baseDecimals: 18,
+    quoteDecimals: 6,
+    priceDecimals: 6,
+  },
+  {
+    base: 'WETH',
+    quote: 'USDC',
+    baseAddress: '0x0000000000000000000000000000000000000BD0',
+    quoteAddress: USDC_ADDRESS,
+    active: false,
+    baseDecimals: 18,
+    quoteDecimals: 6,
+    priceDecimals: 6,
+  },
+  {
+    base: 'DED',
+    quote: 'USDC',
+    baseAddress: '0x0000000000000000000000000000000000000BBF',
+    quoteAddress: USDC_ADDRESS,
+    active: false,
+    baseDecimals: 10,
+    quoteDecimals: 6,
+    priceDecimals: 6,
+  },
+]
+
 // Volatility guard: DOT baseline $8.00, ±10% band
 // Price format: 6-decimal fixed point (8_000_000 = $8.00)
 // Quantity format: 6-decimal fixed point (1_000_000 = 1 DOT unit)
