@@ -65,6 +65,7 @@ export default function ActivityLog() {
   const { notify } = useTelegram(address)
   const [logs, setLogs] = useState<LogEntry[]>([])
   const [loading, setLoading] = useState(true)
+  const [collapsed, setCollapsed] = useState(false)
 
   const add = (entry: LogEntry) =>
     setLogs((prev) => {
@@ -268,13 +269,26 @@ export default function ActivityLog() {
           <Terminal style={{ width: 16, height: 16, color: 'var(--db-accent)' }} />
           <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--db-text-primary)' }}>Activity</h3>
         </div>
-        <span style={{ fontSize: 10, color: 'var(--db-text-muted)', fontFamily: 'var(--font-mono), monospace' }}>
-          {loading ? 'loading...' : `${logs.length} events`}
-        </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span style={{ fontSize: 10, color: 'var(--db-text-muted)', fontFamily: 'var(--font-mono), monospace' }}>
+            {loading ? 'loading...' : `${logs.length} events`}
+          </span>
+          <button
+            onClick={() => setCollapsed(!collapsed)}
+            style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              color: 'var(--db-text-muted)', fontSize: 14, padding: '2px 6px',
+              lineHeight: 1,
+            }}
+            title={collapsed ? 'Expand' : 'Collapse'}
+          >
+            {collapsed ? '+' : '\u2013'}
+          </button>
+        </div>
       </div>
 
       {/* Log body */}
-      <div style={{ flex: 1, overflowY: 'auto', padding: '0.75rem', fontFamily: 'var(--font-mono), monospace', fontSize: 11, maxHeight: 320 }}>
+      {!collapsed && <div style={{ flex: 1, overflowY: 'auto', padding: '0.75rem', fontFamily: 'var(--font-mono), monospace', fontSize: 11, maxHeight: 320 }}>
         {loading ? (
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 80, color: 'var(--db-text-muted)' }}>
             Fetching history...
@@ -302,7 +316,7 @@ export default function ActivityLog() {
             </div>
           ))
         )}
-      </div>
+      </div>}
     </div>
   )
 }

@@ -13,7 +13,10 @@ type Order = {
   active: boolean
 }
 
+import { useState } from 'react'
+
 export default function OpenOrdersTable() {
+  const [collapsed, setCollapsed] = useState(false)
   const { address } = useAccount()
 
   const { data: nextOrderIdData } = useReadContract({
@@ -64,13 +67,24 @@ export default function OpenOrdersTable() {
           <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--db-text-primary)' }}>
             My Open Orders
           </h3>
+          <span style={{ fontSize: 10, color: 'var(--db-text-muted)', fontFamily: 'var(--font-mono), monospace' }}>
+            {myOrders.length} active
+          </span>
         </div>
-        <span style={{ fontSize: 10, color: 'var(--db-text-muted)', fontFamily: 'var(--font-mono), monospace' }}>
-          {myOrders.length} active
-        </span>
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          style={{
+            background: 'none', border: 'none', cursor: 'pointer',
+            color: 'var(--db-text-muted)', fontSize: 14, padding: '2px 6px',
+            lineHeight: 1,
+          }}
+          title={collapsed ? 'Expand' : 'Collapse'}
+        >
+          {collapsed ? '+' : '\u2013'}
+        </button>
       </div>
 
-      {myOrders.length === 0 ? (
+      {collapsed ? null : myOrders.length === 0 ? (
         <div style={{ padding: '2.5rem', textAlign: 'center', color: 'var(--db-text-muted)', fontSize: 12 }}>
           {address ? 'No open orders' : 'Connect wallet to view your orders'}
         </div>

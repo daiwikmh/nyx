@@ -3,6 +3,13 @@
 import { useAccount, useBalance, useReadContract } from 'wagmi'
 import { USDC_ADDRESS, ERC20_ABI } from '@/lib/clob'
 
+function formatCompact(n: number): string {
+  if (n >= 1_000_000_000) return `${(n / 1_000_000_000).toFixed(2)}B`
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(2)}M`
+  if (n >= 1_000) return `${(n / 1_000).toFixed(2)}K`
+  return n.toFixed(2)
+}
+
 export default function BalanceCards() {
   const { address, isConnected } = useAccount()
 
@@ -28,11 +35,11 @@ export default function BalanceCards() {
   }
 
   const dotDisplay = dotBalance
-    ? `${(Number(dotBalance.value) / 10 ** dotBalance.decimals).toFixed(6)} ${dotBalance.symbol}`
+    ? `${formatCompact(Number(dotBalance.value) / 10 ** dotBalance.decimals)} ${dotBalance.symbol}`
     : '—'
 
   const usdcDisplay = usdcRaw !== undefined
-    ? `$${(Number(usdcRaw as bigint) / 1e6).toFixed(6)}`
+    ? `$${formatCompact(Number(usdcRaw as bigint) / 1e6)}`
     : '—'
 
   return (
@@ -47,7 +54,7 @@ export default function BalanceCards() {
       <BalanceCard
         label="USDC Balance"
         value={usdcDisplay}
-        sub="Asset 1337 · Paseo Asset Hub"
+        sub="USDC · Paseo Asset Hub"
         color="var(--db-accent)"
         glow={null}
       />
