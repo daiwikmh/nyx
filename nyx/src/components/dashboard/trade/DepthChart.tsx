@@ -1,61 +1,23 @@
 'use client'
 
 import { useMemo } from 'react'
-import { useReadContracts, useReadContract } from 'wagmi'
-import { WARDEN_CLOB_ADDRESS, CLOB_ABI, MIN_VALID_PRICE, MAX_VALID_PRICE, BASELINE_PRICE } from '@/lib/clob'
-
-type Order = {
-  side: number
-  price: number
-  quantity: number
-}
+import { MIN_VALID_PRICE, MAX_VALID_PRICE, BASELINE_PRICE } from '@/lib/clob'
+import { useOrderBook } from '@/hooks/useOrderBook'
 
 export default function DepthChart() {
-  const { data: nextIdData } = useReadContract({
-    address: WARDEN_CLOB_ADDRESS,
-    abi: CLOB_ABI,
-    functionName: 'nextOrderId',
-  })
-
-  const nextId = nextIdData as bigint | undefined
-  const count = nextId ? Number(nextId) : 0
-
-  const contracts = useMemo(() => {
-    return Array.from({ length: count }, (_, i) => ({
-      address: WARDEN_CLOB_ADDRESS,
-      abi: CLOB_ABI,
-      functionName: 'orders' as const,
-      args: [BigInt(i)],
-    }))
-  }, [count])
-
-  const { data: ordersData, isLoading } = useReadContracts({ contracts })
+  const { activeOrders, bestBid, bestAsk, isLoading } = useOrderBook()
 
   const { bids, asks, midPrice } = useMemo(() => {
-    if (!ordersData) return { bids: [] as { price: number; cumulative: number }[], asks: [] as { price: number; cumulative: number }[], midPrice: 0 }
-
-    const orders: Order[] = []
-    for (const d of ordersData) {
-      if (!d || d.status !== 'success' || !d.result) continue
-      const r = d.result as [string, number, bigint, bigint, bigint, boolean]
-      const [, side, price, quantity, , active] = r
-      if (!active) continue
-      orders.push({
-        side: Number(side),
-        price: Number(price) / 1e6,
-        quantity: Number(quantity) / 1e8,
-      })
-    }
-
     const bidMap = new Map<number, number>()
     const askMap = new Map<number, number>()
 
-    for (const o of orders) {
+    for (const o of activeOrders) {
+      const price = Number(o.price) / 1e6
+      const qty   = Number(o.quantity) / 1e8
       const map = o.side === 0 ? bidMap : askMap
-      map.set(o.price, (map.get(o.price) ?? 0) + o.quantity)
+      map.set(price, (map.get(price) ?? 0) + qty)
     }
 
-    // Bids: sorted price descending, cumulative from best bid down
     const bidPrices = [...bidMap.keys()].sort((a, b) => b - a)
     let cumBid = 0
     const bidDepth = bidPrices.map((p) => {
@@ -63,7 +25,6 @@ export default function DepthChart() {
       return { price: p, cumulative: cumBid }
     })
 
-    // Asks: sorted price ascending, cumulative from best ask up
     const askPrices = [...askMap.keys()].sort((a, b) => a - b)
     let cumAsk = 0
     const askDepth = askPrices.map((p) => {
@@ -71,12 +32,12 @@ export default function DepthChart() {
       return { price: p, cumulative: cumAsk }
     })
 
-    const bestBid = bidPrices[0] ?? 0
-    const bestAsk = askPrices[0] ?? 0
-    const mid = bestBid > 0 && bestAsk > 0 ? (bestBid + bestAsk) / 2 : Number(BASELINE_PRICE) / 1e6
+    const bb = bestBid > 0n ? Number(bestBid) / 1e6 : (bidPrices[0] ?? 0)
+    const ba = bestAsk > 0n ? Number(bestAsk) / 1e6 : (askPrices[0] ?? 0)
+    const mid = bb > 0 && ba > 0 ? (bb + ba) / 2 : Number(BASELINE_PRICE) / 1e6
 
     return { bids: bidDepth, asks: askDepth, midPrice: mid }
-  }, [ordersData])
+  }, [activeOrders, bestBid, bestAsk])
 
   const W = 520
   const H = 200
@@ -155,12 +116,8 @@ export default function DepthChart() {
         <div style={{ height: H, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--db-text-muted)', fontSize: 12 }}>
           Loading order book...
         </div>
-      ) : !hasData ? (
-        <div style={{ height: H, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--db-text-muted)', fontSize: 12 }}>
-          No active orders
-        </div>
       ) : (
-        <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ display: 'block' }}>
+        <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ display: 'block', position: 'relative' }}>
           {/* Band shading */}
           <rect
             x={xScale(minBand)}
@@ -208,6 +165,17 @@ export default function DepthChart() {
           <rect x={PAD.left + 44} y={4} width={8} height={8} rx={2} fill="rgba(239,68,68,0.4)" />
           <text x={PAD.left + 56} y={11} fill="var(--db-text-muted)" fontSize={8}
             fontFamily="var(--font-mono), monospace">Asks</text>
+
+          {/* Empty state overlay */}
+          {!hasData && (
+            <text
+              x={W / 2} y={H / 2 + 4}
+              fill="var(--db-text-muted)" fontSize={11} textAnchor="middle"
+              fontFamily="var(--font-mono), monospace"
+            >
+              No active resting orders
+            </text>
+          )}
         </svg>
       )}
 

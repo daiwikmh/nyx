@@ -1,30 +1,14 @@
 'use client'
 
-import { useReadContracts } from 'wagmi'
-import { WARDEN_CLOB_ADDRESS, CLOB_ABI } from '@/lib/clob'
 import { useLastPrice } from '@/hooks/useLastPrice'
+import { useOrderBook } from '@/hooks/useOrderBook'
 
 export default function StatsCards() {
-  const { data } = useReadContracts({
-    contracts: [
-      { address: WARDEN_CLOB_ADDRESS, abi: CLOB_ABI, functionName: 'bestBid' },
-      { address: WARDEN_CLOB_ADDRESS, abi: CLOB_ABI, functionName: 'bestAsk' },
-      { address: WARDEN_CLOB_ADDRESS, abi: CLOB_ABI, functionName: 'nextOrderId' },
-      { address: WARDEN_CLOB_ADDRESS, abi: CLOB_ABI, functionName: 'totalDOTLocked' },
-      { address: WARDEN_CLOB_ADDRESS, abi: CLOB_ABI, functionName: 'totalUSDCLocked' },
-    ],
-  })
-
-  const bestBid         = data?.[0]?.result as bigint | undefined
-  const bestAsk         = data?.[1]?.result as bigint | undefined
-  const nextOrderId     = data?.[2]?.result as bigint | undefined
-  const totalDOTLocked  = data?.[3]?.result as bigint | undefined
-  const totalUSDCLocked = data?.[4]?.result as bigint | undefined
-
+  const { bestBid, bestAsk, totalDOTLocked, totalUSDCLocked } = useOrderBook()
   const { lastPrice, direction } = useLastPrice()
 
   const spread =
-    bestBid !== undefined && bestAsk !== undefined && bestAsk > 0n && bestBid > 0n
+    bestBid > 0n && bestAsk > 0n
       ? Number(bestAsk - bestBid) / 1e6
       : null
 
@@ -40,13 +24,13 @@ export default function StatsCards() {
     },
     {
       label: 'Best Bid',
-      value: bestBid !== undefined ? `$${(Number(bestBid) / 1e6).toFixed(4)}` : '—',
+      value: bestBid > 0n ? `$${(Number(bestBid) / 1e6).toFixed(4)}` : '—',
       color: 'var(--db-success)',
       glow: 'rgba(34,197,94,0.1)',
     },
     {
       label: 'Best Ask',
-      value: bestAsk !== undefined ? `$${(Number(bestAsk) / 1e6).toFixed(4)}` : '—',
+      value: bestAsk > 0n ? `$${(Number(bestAsk) / 1e6).toFixed(4)}` : '—',
       color: 'var(--db-danger)',
       glow: 'rgba(239,68,68,0.1)',
     },
@@ -64,7 +48,7 @@ export default function StatsCards() {
     },
     {
       label: 'USDC Locked',
-      value: totalUSDCLocked !== undefined ? `$${(Number(totalUSDCLocked) / 1e6).toFixed(4)}` : '—',
+      value: totalUSDCLocked !== undefined ? `$${(Number(totalUSDCLocked) / 1e6).toFixed(2)}` : '—',
       color: 'var(--db-accent)',
       glow: null,
     },

@@ -17,6 +17,75 @@ export default function Sidebar({
   const [showTgCard, setShowTgCard] = useState(false)
 
   return (
+    <>
+    {showTgCard && !linked && (
+      <div
+        onClick={() => setShowTgCard(false)}
+        style={{
+          position: 'fixed', inset: 0, zIndex: 200,
+          background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}
+      >
+        <div
+          onClick={(e) => e.stopPropagation()}
+          style={{
+            width: 360,
+            padding: '28px 24px',
+            borderRadius: 16,
+            background: 'var(--db-bg-elevated)',
+            border: '1px solid var(--db-neon-cyan-muted)',
+            boxShadow: '0 24px 64px rgba(0,0,0,0.7), 0 0 40px rgba(0,255,224,0.08)',
+          }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+            <span style={{ fontSize: 16, fontWeight: 700, color: 'var(--db-text-primary)' }}>
+              Telegram Bot
+            </span>
+            <button
+              onClick={() => setShowTgCard(false)}
+              style={{
+                background: 'none', border: 'none', color: 'var(--db-text-muted)',
+                cursor: 'pointer', fontSize: 20, lineHeight: 1, padding: '0 4px',
+              }}
+            >
+              x
+            </button>
+          </div>
+          <p style={{ fontSize: 13, color: 'var(--db-text-secondary)', lineHeight: 1.7, marginBottom: 16 }}>
+            Link your wallet to{' '}
+            <span style={{ color: 'var(--db-neon-cyan)' }}>@nyx_polkabot</span>{' '}
+            to get real-time notifications for orders, fills, and staking events.
+          </p>
+          <ol style={{ fontSize: 12, color: 'var(--db-text-muted)', lineHeight: 2, margin: '0 0 20px 18px', padding: 0 }}>
+            <li>Click the button below</li>
+            <li>Press <b>Start</b> in Telegram</li>
+            <li>Come back — it will auto-detect</li>
+          </ol>
+          <button
+            onClick={() => { openLink() }}
+            disabled={checking}
+            style={{
+              width: '100%',
+              padding: '11px 8px',
+              borderRadius: 10,
+              fontSize: 13,
+              fontWeight: 600,
+              fontFamily: 'var(--font-mono), monospace',
+              border: '1px solid var(--db-neon-cyan-muted)',
+              background: checking ? 'transparent' : 'var(--db-neon-cyan-ghost)',
+              color: 'var(--db-neon-cyan)',
+              cursor: checking ? 'wait' : 'pointer',
+              letterSpacing: '0.02em',
+              transition: 'all 0.15s',
+              animation: checking ? 'db-pulse 1.5s infinite' : 'none',
+            }}
+          >
+            {checking ? 'Waiting for link...' : 'Open @nyx_polkabot'}
+          </button>
+        </div>
+      </div>
+    )}
     <aside className="db-sidebar">
       {/* Logo */}
       <div className="db-sidebar-header">
@@ -136,67 +205,6 @@ export default function Sidebar({
           </button>
         )}
 
-        {/* Popup card */}
-        {showTgCard && !linked && (
-          <div style={{
-            position: 'absolute',
-            bottom: '100%',
-            left: 12,
-            right: 12,
-            marginBottom: 8,
-            padding: '16px',
-            borderRadius: 12,
-            background: 'var(--db-bg-elevated)',
-            border: '1px solid var(--db-neon-cyan-muted)',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.5), 0 0 20px rgba(0,255,224,0.06)',
-            zIndex: 50,
-          }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-              <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--db-text-primary)' }}>
-                Telegram Bot
-              </span>
-              <button
-                onClick={() => setShowTgCard(false)}
-                style={{
-                  background: 'none', border: 'none', color: 'var(--db-text-muted)',
-                  cursor: 'pointer', fontSize: 16, lineHeight: 1, padding: 0,
-                }}
-              >
-                x
-              </button>
-            </div>
-            <p style={{ fontSize: 11, color: 'var(--db-text-secondary)', lineHeight: 1.6, marginBottom: 12 }}>
-              Link your wallet to <span style={{ color: 'var(--db-neon-cyan)' }}>@nyx_polkabot</span> to
-              get real-time notifications for orders, fills, and staking events.
-            </p>
-            <ol style={{ fontSize: 10, color: 'var(--db-text-muted)', lineHeight: 1.8, margin: '0 0 14px 16px', padding: 0 }}>
-              <li>Click the button below</li>
-              <li>Press <b>Start</b> in Telegram</li>
-              <li>Come back here, it will auto-detect</li>
-            </ol>
-            <button
-              onClick={() => { openLink(); }}
-              disabled={checking}
-              style={{
-                width: '100%',
-                padding: '9px 8px',
-                borderRadius: 8,
-                fontSize: 12,
-                fontWeight: 600,
-                fontFamily: 'var(--font-mono), monospace',
-                border: '1px solid var(--db-neon-cyan-muted)',
-                background: checking ? 'transparent' : 'var(--db-neon-cyan-ghost)',
-                color: 'var(--db-neon-cyan)',
-                cursor: checking ? 'wait' : 'pointer',
-                letterSpacing: '0.02em',
-                transition: 'all 0.15s',
-                animation: checking ? 'db-pulse 1.5s infinite' : 'none',
-              }}
-            >
-              {checking ? 'Waiting for link...' : 'Open @nyx_polkabot'}
-            </button>
-          </div>
-        )}
       </div>
 
       {/* Wallet */}
@@ -224,5 +232,6 @@ export default function Sidebar({
         </div>
       </div>
     </aside>
+    </>
   )
 }
