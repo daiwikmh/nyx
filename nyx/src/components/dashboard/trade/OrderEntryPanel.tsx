@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useMemo, useEffect } from 'react'
-import { useAccount, useWriteContract, useReadContract, useWaitForTransactionReceipt } from 'wagmi'
-import { parseUnits } from 'viem'
+import { useAccount, useWriteContract, useReadContract, useWaitForTransactionReceipt, usePublicClient } from 'wagmi'
+import { parseUnits, decodeEventLog } from 'viem'
 import {
   WARDEN_CLOB_ADDRESS,
   USDC_ADDRESS,
@@ -62,21 +62,45 @@ export default function OrderEntryPanel({ pair }: { pair?: TradingPair }) {
   const needsApproval = side === 0 && costBn > 0n && !approvalConfirmed &&
     allowance !== undefined && (allowance as bigint) < costBn
 
+  const publicClient = usePublicClient()
+
   useEffect(() => {
     if (isSuccess && isApproving) {
       setApprovalConfirmed(true)
       setIsApproving(false)
       refetchAllowance()
     }
-    if (isSuccess && !isApproving) {
-      notify('OrderPlaced', {
-        orderId: txHash ?? '',
-        side,
-        price: String(priceBn),
-        quantity: String(quantityBn),
-      })
+    if (isSuccess && !isApproving && txHash && publicClient) {
+      publicClient.getTransactionReceipt({ hash: txHash }).then((receipt) => {
+        for (const log of receipt.logs) {
+          try {
+            const decoded = decodeEventLog({ abi: CLOB_ABI, data: log.data, topics: log.topics })
+            if (decoded.eventName === 'OrderPlaced') {
+              const a = decoded.args as any
+              notify('OrderPlaced', {
+                orderId: String(a.orderId),
+                side: a.side,
+                price: String(a.price),
+                quantity: String(a.quantity),
+              })
+            }
+            if (decoded.eventName === 'OrderFilled') {
+              const a = decoded.args as any
+              notify('OrderFilled', {
+                orderId: String(a.orderId),
+                filledAmount: String(a.filledAmount),
+                remainingAmount: String(a.remainingAmount),
+              })
+            }
+            if (decoded.eventName === 'OrderSettled') {
+              const a = decoded.args as any
+              notify('OrderSettled', { orderId: String(a.orderId) })
+            }
+          } catch {}
+        }
+      }).catch(() => {})
     }
-  }, [isSuccess, isApproving, refetchAllowance, notify, txHash, side, priceBn, quantityBn])
+  }, [isSuccess, isApproving, refetchAllowance, notify, txHash, publicClient])
 
   const handleApprove = () => {
     setIsApproving(true)
