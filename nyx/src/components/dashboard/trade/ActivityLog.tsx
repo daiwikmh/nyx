@@ -225,6 +225,9 @@ export default function ActivityLog() {
             blockNumber: e.blockNumber ?? 0n,
             logIndex: e.logIndex ?? 0,
           })
+          if (address && a.user.toLowerCase() === address.toLowerCase()) {
+            notify('OrderSettled', { orderId: String(a.orderId) })
+          }
         }),
     })
 

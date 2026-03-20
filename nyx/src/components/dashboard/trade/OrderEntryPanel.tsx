@@ -81,7 +81,7 @@ export default function OrderEntryPanel({ pair }: { pair?: TradingPair }) {
   const handleApprove = () => {
     setIsApproving(true)
     reset()
-    writeContract({ address: USDC_ADDRESS, abi: ERC20_ABI, functionName: 'approve', args: [WARDEN_CLOB_ADDRESS, costBn] })
+    writeContract({ address: USDC_ADDRESS, abi: ERC20_ABI, functionName: 'approve', args: [WARDEN_CLOB_ADDRESS, costBn], gas: 500_000n })
   }
 
   const handleSubmit = () => {

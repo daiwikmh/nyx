@@ -12,6 +12,7 @@ export const paseoAssetHub = defineChain({
     default: { http: ['https://eth-rpc-testnet.polkadot.io/'] },
   },
   testnet: true,
+  fees: { defaultPriorityFee: () => 0n },
 })
 
 export const wagmiConfig = createConfig({

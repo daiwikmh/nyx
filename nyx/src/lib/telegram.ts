@@ -1,8 +1,26 @@
 // server-only telegram bot utilities
+import * as fs from 'fs'
+import * as path from 'path'
+
 const TOKEN = process.env.TELEGRAM_BOT_TOKEN ?? ''
 const API = `https://api.telegram.org/bot${TOKEN}`
 
-const walletToChat = new Map<string, string>()
+const STORE_PATH = path.join(process.cwd(), '.telegram-links.json')
+
+function loadMap(): Map<string, string> {
+  try {
+    const data = JSON.parse(fs.readFileSync(STORE_PATH, 'utf-8'))
+    return new Map(Object.entries(data))
+  } catch {
+    return new Map()
+  }
+}
+
+function saveMap(m: Map<string, string>) {
+  fs.writeFileSync(STORE_PATH, JSON.stringify(Object.fromEntries(m), null, 2))
+}
+
+const walletToChat = loadMap()
 let updateOffset = 0
 let polling = false
 
@@ -25,6 +43,7 @@ export async function processUpdates() {
       const wallet = text.slice(7).toLowerCase()
       const chatId = String(u.message!.chat.id)
       walletToChat.set(wallet, chatId)
+      saveMap(walletToChat)
       const short = `${wallet.slice(0, 6)}...${wallet.slice(-4)}`
       await sendNotification(chatId, `Nyx linked to <code>${short}</code>\nYou will receive trade notifications here.`)
     }
