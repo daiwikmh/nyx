@@ -2,6 +2,7 @@
 
 import { useReadContracts } from 'wagmi'
 import { WARDEN_CLOB_ADDRESS, CLOB_ABI } from '@/lib/clob'
+import { useLastPrice } from '@/hooks/useLastPrice'
 
 export default function StatsCards() {
   const { data } = useReadContracts({
@@ -20,12 +21,23 @@ export default function StatsCards() {
   const totalDOTLocked  = data?.[3]?.result as bigint | undefined
   const totalUSDCLocked = data?.[4]?.result as bigint | undefined
 
+  const { lastPrice, direction } = useLastPrice()
+
   const spread =
     bestBid !== undefined && bestAsk !== undefined && bestAsk > 0n && bestBid > 0n
       ? Number(bestAsk - bestBid) / 1e6
       : null
 
+  const lastPriceColor = direction === 'up' ? 'var(--db-success)'
+    : direction === 'down' ? 'var(--db-danger)' : 'var(--db-neon-cyan)'
+
   const cards = [
+    {
+      label: 'Last Price',
+      value: lastPrice ? `$${(Number(lastPrice) / 1e6).toFixed(4)}` : '—',
+      color: lastPriceColor,
+      glow: 'rgba(0,255,224,0.08)',
+    },
     {
       label: 'Best Bid',
       value: bestBid !== undefined ? `$${(Number(bestBid) / 1e6).toFixed(4)}` : '—',
@@ -43,12 +55,6 @@ export default function StatsCards() {
       value: spread !== null ? `$${spread.toFixed(4)}` : '—',
       color: 'var(--db-text-primary)',
       glow: null,
-    },
-    {
-      label: 'Total Orders',
-      value: nextOrderId !== undefined ? String(nextOrderId) : '—',
-      color: 'var(--db-neon-cyan)',
-      glow: 'rgba(0,255,224,0.08)',
     },
     {
       label: 'PAS Locked',
