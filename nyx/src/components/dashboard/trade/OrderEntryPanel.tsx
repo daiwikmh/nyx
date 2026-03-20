@@ -313,7 +313,7 @@ export default function OrderEntryPanel({ pair }: { pair?: TradingPair }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--db-text-secondary)' }}>PolkaVM</span>
           <div style={{ width: 1, height: 14, background: 'var(--db-border)' }} />
-          <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--db-text-secondary)' }}>Paseo Hub</span>
+          <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--db-text-secondary)' }}>Asset Hub</span>
         </div>
       </div>
     </div>

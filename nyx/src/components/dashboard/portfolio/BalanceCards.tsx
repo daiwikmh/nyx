@@ -47,14 +47,14 @@ export default function BalanceCards() {
       <BalanceCard
         label="DOT Balance"
         value={dotDisplay}
-        sub="Native · Paseo Asset Hub"
+        sub="Native · Asset Hub"
         color="var(--db-neon-cyan)"
         glow="rgba(0,255,224,0.08)"
       />
       <BalanceCard
         label="USDC Balance"
         value={usdcDisplay}
-        sub="USDC · Paseo Asset Hub"
+        sub="USDC · Asset Hub"
         color="var(--db-accent)"
         glow={null}
       />

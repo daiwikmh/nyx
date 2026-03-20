@@ -95,7 +95,7 @@ export default function Sidebar({
           </div>
           <div>
             <h1 className="db-sidebar-title">Nyx</h1>
-            <p className="db-sidebar-subtitle">CLOB · Paseo</p>
+            <p className="db-sidebar-subtitle">CLOB · Asset Hub</p>
           </div>
         </div>
       </div>
@@ -163,7 +163,7 @@ export default function Sidebar({
         <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
           <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--db-success)', animation: 'db-pulse 2s infinite' }} />
           <span style={{ fontSize: 11, color: 'var(--db-text-secondary)', fontFamily: 'var(--font-mono), monospace' }}>
-            Paseo Asset Hub
+            Polkadot Asset Hub
           </span>
         </div>
         <p style={{ fontSize: 9, color: 'var(--db-text-muted)', marginTop: 2 }}>chain 420420421</p>

@@ -117,7 +117,7 @@ export default function YieldDashboard() {
         padding: '0 1.25rem 0.5rem',
         fontSize: 10, color: 'var(--db-text-muted)', fontFamily: 'var(--font-mono), monospace',
       }}>
-        Paseo Nomination Pool — idle PAS auto-staked via precompile
+        Nomination Pool — idle PAS auto-staked via precompile
       </div>
 
       {/* Events table */}

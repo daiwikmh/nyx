@@ -4,7 +4,7 @@
 
 Nyx CLOB is a **decentralized Central Limit Order Book** built for **Polkadot Hub (Asset Hub)** using the **PolkaVM (PVM)** runtime. It combines a Solidity settlement manager with a Rust-based matching engine, both running as PVM smart contracts on-chain.
 
-The system is designed for the **Polkadot Track 2 Hackathon** and targets the **Paseo Asset Hub Testnet**.
+The system is designed for the **Polkadot Track 2 Hackathon** and targets **Polkadot Asset Hub**.
 
 ---
 
@@ -21,7 +21,7 @@ The system is designed for the **Polkadot Track 2 Hackathon** and targets the **
                  +------------------+------------------+
                  |         WardenCLOB.sol (PVM)        |
                  |         Settlement Manager          |
-                 |  0x84e5...1710 (Paseo Testnet)      |
+                 |  0x84e5...1710 (Asset Hub)          |
                  |                                     |
                  |  1. Escrow user funds (DOT/USDC)    |
                  |  2. Call engine for matching -----+  |
@@ -32,7 +32,7 @@ The system is designed for the **Polkadot Track 2 Hackathon** and targets the **
                                    v                   |
                  +-----------------+-----------------+  |
                  |   Rust PVM Engine (engine.polkavm)|  |
-                 |   0x7CB0...F73C (Paseo Testnet)  |<-+
+                 |   0x7CB0...F73C (Asset Hub)      |<-+
                  |                                   |
                  |  matchOrder(side, price, qty,     |
                  |             bestOpposite,         |
@@ -55,7 +55,7 @@ The system is designed for the **Polkadot Track 2 Hackathon** and targets the **
 
 ---
 
-## Deployed Addresses (Paseo Asset Hub Testnet)
+## Deployed Addresses (Polkadot Asset Hub)
 
 | Contract | Address | Deployer |
 |---|---|---|
@@ -64,7 +64,7 @@ The system is designed for the **Polkadot Track 2 Hackathon** and targets the **
 | **MockUSDC** (ERC20) | `0x2369B00a916132cBD3639bB29353d062f5fF325a` | `0x445bf5fe58f2Fe5009eD79cFB1005703D68cbF85` |
 | Staking Precompile (Nom. Pools) | `0x0000000000000000000000000000000000000804` | System |
 
-**Network:** Paseo Asset Hub Testnet
+**Network:** Polkadot Asset Hub
 **RPC (Ethereum JSON-RPC):** `https://eth-rpc-testnet.polkadot.io/`
 
 ---
@@ -290,7 +290,7 @@ Both the Solidity contract and the Rust engine implement this exact function sig
 
 ### Version Alignment (Critical)
 
-The PolkaVM blob format has a **version byte** at offset 4 of the binary. The Paseo testnet runtime accepts **blob version `0x00`** only.
+The PolkaVM blob format has a **version byte** at offset 4 of the binary. The runtime accepts **blob version `0x00`** only.
 
 | Component | Required Version | Blob Version |
 |---|---|---|
@@ -440,7 +440,7 @@ Data:   P  V  M  \0 VV ...
                      ^^ blob version
 ```
 
-The Paseo testnet runtime (2.0.5+) only accepts **version `0x00`**. This requires `polkatool <= 0.29.x`. Version 0.30.0+ produces `0x02` which is rejected with `CodeRejected`.
+The Polkadot Asset Hub runtime (2.0.5+) only accepts **version `0x00`**. This requires `polkatool <= 0.29.x`. Version 0.30.0+ produces `0x02` which is rejected with `CodeRejected`.
 
 ---
 

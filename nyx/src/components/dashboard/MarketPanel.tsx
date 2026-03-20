@@ -100,7 +100,7 @@ export default function MarketPanel() {
       {/* Connections */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
         <p style={{ fontSize: 9, color: 'var(--db-text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Connections</p>
-        <ConnRow label="RPC"      value="Paseo Testnet" ok />
+        <ConnRow label="RPC"      value="Asset Hub" ok />
         <ConnRow label="Contract" value="0x84e5…1710"   ok />
         <ConnRow label="USDC"     value="0x…0539"       ok />
         <ConnRow label="Staking"  value="0x…0804"       ok />

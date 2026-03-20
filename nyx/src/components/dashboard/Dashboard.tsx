@@ -46,7 +46,7 @@ export default function Dashboard() {
           <div className="flex items-center gap-3">
             <div className="db-status-badge">
               <div className="db-status-dot" style={{ background: 'var(--db-neon-cyan)', animation: 'db-pulse 2s infinite' }} />
-              <span style={{ color: 'var(--db-neon-cyan)' }}>Paseo Testnet</span>
+              <span style={{ color: 'var(--db-neon-cyan)' }}>Asset Hub</span>
             </div>
             <button onClick={() => setRightOpen(!rightOpen)} className="db-icon-btn">
               {rightOpen ? <PanelRightClose className="w-4 h-4" /> : <PanelRightOpen className="w-4 h-4" />}

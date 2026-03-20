@@ -61,7 +61,7 @@ export default function WalletButton() {
             cursor: 'pointer',
           }}
         >
-          Switch to Paseo
+          Switch to Asset Hub
         </button>
         <button
           onClick={() => disconnect()}
@@ -118,7 +118,7 @@ export default function WalletButton() {
             <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12, fontWeight: 600, color: 'var(--db-text-primary)', letterSpacing: '0.02em' }}>
               {address?.slice(0, 6)}...{address?.slice(-4)}
             </p>
-            <p style={{ fontSize: 9, color: 'var(--db-text-muted)', marginTop: 1 }}>Paseo Asset Hub · chain 420420421</p>
+            <p style={{ fontSize: 9, color: 'var(--db-text-muted)', marginTop: 1 }}>Polkadot Asset Hub</p>
           </div>
         </div>
 

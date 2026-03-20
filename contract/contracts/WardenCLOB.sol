@@ -28,7 +28,7 @@ interface IStaking {
 ///           1. Compile with resolc, upload bytecode, note code hash.
 ///           2. Instantiate from the code hash.
 ///
-/// ADDRESSES (Asset Hub Paseo Testnet):
+/// ADDRESSES (Polkadot Asset Hub):
 ///   USDC (MockERC20)      : constructor param
 ///   Staking (Nom. Pools)  : 0x0000000000000000000000000000000000000804
 contract WardenCLOB is AccessControl {

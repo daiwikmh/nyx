@@ -1,6 +1,6 @@
 # Nyx CLOB
 
-A fully on-chain Central Limit Order Book (CLOB) built on PolkaVM's RISC-V architecture, where Solidity calls into a native Rust matching engine via cross-runtime contract calls. Deployed and running on Paseo Asset Hub testnet.
+A fully on-chain Central Limit Order Book (CLOB) built on PolkaVM's RISC-V architecture, where Solidity calls into a native Rust matching engine via cross-runtime contract calls. Deployed and running on Polkadot Asset Hub.
 
 **Live:** [nyx-trade.vercel.app](https://nyx-trade.vercel.app)
 
@@ -14,7 +14,7 @@ The heavy lifting — order matching and volatility guard — runs as a Rust bin
 
 Rust gives us the performance and safety for the matching logic — 14 tests covering partial fills, price band violations, and overflow protection. Solidity gives us the composability and familiar ERC20 integration for USDC escrow, DOT deposits, and automatic yield through nomination pool staking on idle capital.
 
-This is not a demo with mock data. Everything is deployed and running on Paseo Asset Hub testnet.
+This is not a demo with mock data. Everything is deployed and running on Polkadot Asset Hub.
 
 ---
 
@@ -123,7 +123,7 @@ User / Nyx Frontend (Next.js 16)
 
 ---
 
-## Deployed Contracts — Paseo Asset Hub Testnet
+## Deployed Contracts — Polkadot Asset Hub
 
 | Contract | Address |
 |---|---|
@@ -132,7 +132,7 @@ User / Nyx Frontend (Next.js 16)
 | **USDC** (ERC20) | [`0x2369B00a916132cBD3639bB29353d062f5fF325a`](https://blockscout-paseo.polkadot.io/address/0x2369B00a916132cBD3639bB29353d062f5fF325a) |
 | Staking Precompile (Nom. Pools) | `0x0000000000000000000000000000000000000804` |
 
-**Network:** Paseo Asset Hub Testnet
+**Network:** Polkadot Asset Hub
 **RPC:** `https://eth-rpc-testnet.polkadot.io/`
 **Deployer:** `0x445bf5fe58f2Fe5009eD79cFB1005703D68cbF85`
 **Engine wired to WardenCLOB** via `setEngine()`
@@ -160,7 +160,7 @@ polka/
 │   ├── src/app/dashboard/      Full trading dashboard (trade + portfolio modes)
 │   ├── src/lib/clob.ts         Contract addresses, ABI, trading pairs config
 │   ├── src/lib/telegram.ts     Telegram bot integration (persistent wallet linking)
-│   ├── src/lib/wagmi.ts        Paseo Asset Hub chain config (chainId 420420421)
+│   ├── src/lib/wagmi.ts        Polkadot Asset Hub chain config (chainId 420420421)
 │   └── src/hooks/useTelegram.ts  Wallet-to-Telegram linking hook
 │
 ├── seed-orders.ts              Seed bid/ask orders for order book population
@@ -182,7 +182,7 @@ polka/
 | Node.js | 18+ | for Hardhat |
 | bun | latest | for nyx frontend |
 
-> **Critical:** `polkatool` and `polkavm-derive` must be `0.29.0`. Newer versions produce blob version `0x02` which the Paseo testnet rejects with `CodeRejected`.
+> **Critical:** `polkatool` and `polkavm-derive` must be `0.29.0`. Newer versions produce blob version `0x02` which the runtime rejects with `CodeRejected`.
 
 ### Build Everything
 
