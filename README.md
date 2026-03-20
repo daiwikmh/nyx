@@ -1,4 +1,4 @@
-# Nyx CLOB
+# Nyx
 
 A fully on-chain Central Limit Order Book (CLOB) built on PolkaVM's RISC-V architecture, where Solidity calls into a native Rust matching engine via cross-runtime contract calls. Deployed and running on Polkadot Asset Hub.
 
