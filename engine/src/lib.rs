@@ -1,4 +1,4 @@
-//! Shadow Warden CLOB — PVM Matching & Risk Engine
+//! Nyx CLOB — PVM Matching & Risk Engine
 //!
 //! Target  : riscv64emac-unknown-none-polkavm
 //! Crate   : bin  (exports `call` + `deploy` C entry points)

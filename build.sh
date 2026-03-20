@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Shadow Warden CLOB — build script
+# Nyx CLOB — build script
 # Usage: ./build.sh [--sol-only | --rust-only]
 set -euo pipefail
 
@@ -65,4 +65,4 @@ if $BUILD_RUST; then
 fi
 
 echo ""
-info "Shadow Warden CLOB build complete."
+info "Nyx CLOB build complete."

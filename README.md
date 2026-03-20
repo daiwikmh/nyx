@@ -1,7 +1,5 @@
 # Nyx CLOB
 
-**Polkadot Hackathon — Track 2: Unlock the Speed and Power of PVM**
-
 A fully on-chain Central Limit Order Book (CLOB) built on PolkaVM's RISC-V architecture, where Solidity calls into a native Rust matching engine via cross-runtime contract calls. Deployed and running on Paseo Asset Hub testnet.
 
 **Live:** [nyx-trade.vercel.app](https://nyx-trade.vercel.app)

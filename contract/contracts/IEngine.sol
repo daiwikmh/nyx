@@ -2,7 +2,7 @@
 pragma solidity ^0.8.28;
 
 /// @title  IEngine
-/// @notice Interface for the Shadow Warden CLOB Rust/PVM Matching Engine.
+/// @notice Interface for the Nyx CLOB Rust/PVM Matching Engine.
 /// @dev    The implementing contract is a RISC-V PolkaVM binary uploaded
 ///         separately via the two-step PVM deployment model (code upload →
 ///         instantiation).  Set the address in WardenCLOB via setEngine().

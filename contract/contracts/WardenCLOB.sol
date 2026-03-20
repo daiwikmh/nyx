@@ -15,7 +15,7 @@ interface IStaking {
 // ── WardenCLOB ────────────────────────────────────────────────────────────────
 
 /// @title  WardenCLOB
-/// @notice Shadow Warden CLOB Settlement Manager.
+/// @notice Nyx CLOB Settlement Manager.
 ///
 ///         Off-chain order-book computation lives in the Rust/PVM engine.
 ///         This contract handles:
