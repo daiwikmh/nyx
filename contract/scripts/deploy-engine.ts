@@ -30,7 +30,7 @@ async function main() {
   console.log("Engine deployed at:", receipt?.contractAddress);
 
   // Now wire it to WardenCLOB
-  const CLOB_ADDRESS = "0x84e57567758B1143BD285eED2cbD574187a1D710";
+  const CLOB_ADDRESS = "0x504B962fC472ab5ea0C9CF58885f6f6ad6268BF3";
   const clobArtifact = require("../artifacts/contracts/WardenCLOB.sol/WardenCLOB.json");
   const clob = new ethers.Contract(CLOB_ADDRESS, clobArtifact.abi, wallet);
 

@@ -21,7 +21,7 @@ export function Navbar() {
             transition={{ delay: 0.2, duration: 0.4 }}
             className="flex items-center gap-3"
           >
-            <span className="text-sm font-mono">&#x2694;</span>
+            <img src="/trade_logo.png" alt="Nyx" width={24} height={24} />
             <span className="text-xs font-mono tracking-[0.15em] uppercase font-bold">
               NYX
             </span>

@@ -45,9 +45,9 @@ WardenCLOB.sol  (Solidity → PVM via resolc)     contract/contracts/WardenCLOB.
 
 | Contract | Address |
 |---|---|
-| **WardenCLOB** (Solidity) | [`0x84e57567758B1143BD285eED2cbD574187a1D710`](https://blockscout-paseo.polkadot.io/address/0x84e57567758B1143BD285eED2cbD574187a1D710) |
-| **Rust PVM Engine** | [`0x7CB0F309f7501C8458a0C98804699706cE33F73C`](https://blockscout-paseo.polkadot.io/address/0x7CB0F309f7501C8458a0C98804699706cE33F73C) |
-| USDC Precompile (Asset 1337) | `0x0000000000000000000000000000000000000539` |
+| **WardenCLOB** (Solidity) | [`0x504B962fC472ab5ea0C9CF58885f6f6ad6268BF3`](https://blockscout-paseo.polkadot.io/address/0x504B962fC472ab5ea0C9CF58885f6f6ad6268BF3) |
+| **Rust PVM Engine** | [`0xCa1F96Ef99F21777C4DCe2Bc6C5BE88803625923`](https://blockscout-paseo.polkadot.io/address/0xCa1F96Ef99F21777C4DCe2Bc6C5BE88803625923) |
+| **MockUSDC** (ERC20) | [`0x2369B00a916132cBD3639bB29353d062f5fF325a`](https://blockscout-paseo.polkadot.io/address/0x2369B00a916132cBD3639bB29353d062f5fF325a) |
 | Staking Precompile (Nom. Pools) | `0x0000000000000000000000000000000000000804` |
 
 **Network:** Paseo Asset Hub Testnet

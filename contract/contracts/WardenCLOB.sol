@@ -28,8 +28,8 @@ interface IStaking {
 ///           1. Compile with resolc, upload bytecode, note code hash.
 ///           2. Instantiate from the code hash.
 ///
-/// PRECOMPILE ADDRESSES (Asset Hub Paseo Testnet):
-///   USDC (Asset ID 1337)  : 0x0000000000000000000000000000000000000539
+/// ADDRESSES (Asset Hub Paseo Testnet):
+///   USDC (MockERC20)      : constructor param
 ///   Staking (Nom. Pools)  : 0x0000000000000000000000000000000000000804
 contract WardenCLOB is AccessControl {
 
@@ -39,7 +39,7 @@ contract WardenCLOB is AccessControl {
 
     // ── Addresses ─────────────────────────────────────────────────────────────
 
-    address public constant USDC    = 0x0000000000000000000000000000000000000539;
+    address public immutable USDC;
     address public constant STAKING = 0x0000000000000000000000000000000000000804;
 
     /// @notice Rust/PVM CLOB engine.
@@ -107,7 +107,9 @@ contract WardenCLOB is AccessControl {
 
     // ── Constructor ───────────────────────────────────────────────────────────
 
-    constructor(address admin) {
+    constructor(address admin, address usdc) {
+        require(usdc != address(0), "WardenCLOB: zero USDC");
+        USDC = usdc;
         _grantRole(DEFAULT_ADMIN_ROLE, admin);
         _grantRole(KEEPER_ROLE, admin);
     }

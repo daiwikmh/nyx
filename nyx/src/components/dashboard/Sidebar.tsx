@@ -90,8 +90,8 @@ export default function Sidebar({
       {/* Logo */}
       <div className="db-sidebar-header">
         <div className="flex items-center gap-3">
-          <div className="db-sidebar-logo">
-            <span style={{ color: 'var(--db-accent)', fontSize: 16 }}>⚔</span>
+          <div className="db-sidebar-logo" style={{ background: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <img src="/trade_logo.png" alt="Nyx" width={24} height={24} />
           </div>
           <div>
             <h1 className="db-sidebar-title">Nyx</h1>
