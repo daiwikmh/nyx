@@ -1,4 +1,4 @@
-# Shadow Warden CLOB
+# Nyx CLOB
 
 **Polkadot Hackathon — Track 2: Unlock the Speed and Power of PVM**
 

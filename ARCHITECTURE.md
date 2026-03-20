@@ -1,8 +1,8 @@
-# Shadow Warden CLOB — Architecture & Build Guide
+# Nyx CLOB — Architecture & Build Guide
 
 ## Overview
 
-Shadow Warden CLOB is a **decentralized Central Limit Order Book** built for **Polkadot Hub (Asset Hub)** using the **PolkaVM (PVM)** runtime. It combines a Solidity settlement manager with a Rust-based matching engine, both running as PVM smart contracts on-chain.
+Nyx CLOB is a **decentralized Central Limit Order Book** built for **Polkadot Hub (Asset Hub)** using the **PolkaVM (PVM)** runtime. It combines a Solidity settlement manager with a Rust-based matching engine, both running as PVM smart contracts on-chain.
 
 The system is designed for the **Polkadot Track 2 Hackathon** and targets the **Paseo Asset Hub Testnet**.
 
